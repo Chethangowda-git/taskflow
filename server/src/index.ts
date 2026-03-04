@@ -2,6 +2,14 @@ import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
+import cookieParser from 'cookie-parser';
+import { connectDB } from './config/db';
+import { authRouter } from './routes/auth.routes';
+import { boardRouter } from './routes/board.routes';
+import { columnRouter } from './routes/column.routes';
+import { cardRouter } from './routes/card.routes';
+import { userRouter } from './routes/user.routes';
+import { errorHandler } from './middleware/error.middleware';
 
 const app = express();
 
@@ -11,12 +19,25 @@ app.use(cors({
   credentials: true,
 }));
 app.use(express.json());
+app.use(cookieParser());
 
-app.get('/api/health', (_req, res) => {
-  res.json({ status: 'ok' });
-});
+app.use('/api/auth', authRouter);
+app.use('/api/boards', boardRouter);
+app.use('/api', columnRouter);
+app.use('/api', cardRouter);
+app.use('/api/users', userRouter);
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
-});
+app.get('/api/health', (_req, res) => res.json({ status: 'ok' }));
+
+app.use(errorHandler);
+
+const PORT = process.env.PORT || 4000;
+
+async function start() {
+  await connectDB();
+  app.listen(PORT, () => {
+    console.log(`🚀 Server running on http://localhost:${PORT}`);
+  });
+}
+
+start().catch(console.error);
