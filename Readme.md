@@ -2,10 +2,19 @@
 
 > A real-time collaborative task board built to demonstrate WebSocket engineering, optimistic UI patterns, and full-stack TypeScript architecture.
 
-![TaskFlow Board](https://img.shields.io/badge/status-live-brightgreen)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.4-blue)
-![Node.js](https://img.shields.io/badge/Node.js-20-green)
-![React](https://img.shields.io/badge/React-18-61dafb)
+![Status](https://img.shields.io/badge/status-live-brightgreen?style=flat-square)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.4-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![React](https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react&logoColor=black)
+![Node.js](https://img.shields.io/badge/Node.js-20-339933?style=flat-square&logo=node.js&logoColor=white)
+![Express](https://img.shields.io/badge/Express-4.19-000000?style=flat-square&logo=express&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-47A248?style=flat-square&logo=mongodb&logoColor=white)
+![Redis](https://img.shields.io/badge/Redis-Upstash-DC382D?style=flat-square&logo=redis&logoColor=white)
+![Socket.io](https://img.shields.io/badge/Socket.io-4.7-010101?style=flat-square&logo=socket.io&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/Tailwind-3.4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=flat-square&logo=docker&logoColor=white)
+![Vercel](https://img.shields.io/badge/Deployed-Vercel-000000?style=flat-square&logo=vercel&logoColor=white)
+![Render](https://img.shields.io/badge/Deployed-Render-46E3B7?style=flat-square&logo=render&logoColor=white)
+![CI](https://img.shields.io/badge/CI-GitHub_Actions-2088FF?style=flat-square&logo=githubactions&logoColor=white)
 
 **Live Demo:** [coming soon]
 
@@ -95,36 +104,73 @@ Cards within a column use `closestCenter` collision detection, which is accurate
 
 ---
 
-## Local Development
+## Running the Project
 
-### Prerequisites
-- Node.js 20+
-- Docker Desktop
+### Option 1 — Docker (Recommended)
 
-### Setup
+The easiest way to run TaskFlow. No need to install Node.js, MongoDB, or Redis manually.
+
+**Prerequisites:** [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 
 ```bash
 # 1. Clone the repo
 git clone https://github.com/YOUR_USERNAME/taskflow.git
 cd taskflow
 
-# 2. Start MongoDB + Redis
-docker-compose up -d
+# 2. Build and start all services
+docker-compose up --build
+```
+
+That's it. Open your browser:
+
+| Service | URL |
+|---|---|
+| Frontend | http://localhost:3000 |
+| Backend | http://localhost:4000 |
+| Health check | http://localhost:4000/api/health |
+
+**To stop:**
+```bash
+docker-compose down
+```
+
+**To stop and remove all data:**
+```bash
+docker-compose down -v
+```
+
+---
+
+### Option 2 — Local Development
+
+Run client and server separately with hot reload.
+
+**Prerequisites:** Node.js 20+, Docker Desktop
+
+```bash
+# 1. Clone the repo
+git clone https://github.com/YOUR_USERNAME/taskflow.git
+cd taskflow
+
+# 2. Start MongoDB + Redis only
+docker-compose up -d mongodb redis
 
 # 3. Install dependencies
 npm install
 
 # 4. Configure environment variables
 cp server/.env.example server/.env
-# Edit server/.env and fill in the values below
+# Edit server/.env and fill in the values
 
 # 5. Start both client and server
 npm run dev
 ```
 
-**Client:** http://localhost:5173  
-**Server:** http://localhost:4000  
-**Health check:** http://localhost:4000/api/health
+| Service | URL |
+|---|---|
+| Frontend | http://localhost:5173 |
+| Backend | http://localhost:4000 |
+| Health check | http://localhost:4000/api/health |
 
 ### Environment Variables
 
@@ -260,3 +306,6 @@ taskflow/
 | `presence:update` | `{ users: [{ userId, name }] }` |
 | `typing:indicator` | `{ cardId, userId, name, isTyping }` |
 
+---
+
+*Built as part of a full-stack + AI/ML portfolio. See also: IntelliDoc, FoodDash, PromptLab.*

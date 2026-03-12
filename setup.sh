@@ -1,3 +1,29 @@
+#!/bin/bash
+
+echo "🔧 Fixing import.meta.env TypeScript error..."
+
+# ─────────────────────────────────────────────────────────────
+# 1. Add vite/client types to client/src/vite-env.d.ts
+# ─────────────────────────────────────────────────────────────
+cat > client/src/vite-env.d.ts << 'EOF'
+/// <reference types="vite/client" />
+
+interface ImportMetaEnv {
+  readonly VITE_API_URL: string;
+  readonly VITE_SOCKET_URL: string;
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv;
+}
+EOF
+echo "✅ Created client/src/vite-env.d.ts"
+
+# ─────────────────────────────────────────────────────────────
+# 2. Simplify main.tsx — use hardcoded fallback instead of
+#    import.meta.env to avoid any build-time issues
+# ─────────────────────────────────────────────────────────────
+cat > client/src/main.tsx << 'EOF'
 import { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -54,3 +80,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <Root />
   </QueryClientProvider>
 );
+EOF
+echo "✅ Fixed client/src/main.tsx"
+
+echo ""
+echo "Now run:"
+echo "  docker-compose up --build"

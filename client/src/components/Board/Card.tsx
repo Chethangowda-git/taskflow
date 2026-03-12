@@ -31,7 +31,7 @@ export default function Card({ card }: Props) {
   useEffect(() => {
     const socket = getSocket();
 
-    socket.on('typing:indicator', ({ cardId, userId, isTyping, name }: {
+    socket.on('typing:indicator', ({ cardId, userId: _userId, isTyping, name }: {
       cardId: string;
       userId: string;
       isTyping: boolean;
